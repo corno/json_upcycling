@@ -1,0 +1,44 @@
+{
+  "name": "schema-for-freeform-json",
+  "version": "0.1.0",
+  "author": "Corno",
+  "license": "Apache-2.0",
+  "description": "A TypeScript library for creating generating libraries that can read JSON files into static Pareto data sets",
+  "keywords": [],
+  "homepage": "https://github.com/corno/schema-for-freeform-json#readme",
+  "bugs": {
+    "url": "https://github.com/corno/schema-for-freeform-json/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/corno/schema-for-freeform-json.git"
+  },
+  "type": "module",
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "bin": {},
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "documentation"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "astn-core": "^0.5.0",
+    "liana-core": "^0.1.0",
+    "pareto": "^0.80.75",
+    "pareto-common": "^0.1.67",
+    "pareto-core": "^0.1.0",
+    "pareto-core-dev": "^0.12.25",
+    "pareto-core-shorthands": "^0.2.0",
+    "pareto-fountain-pen": "^0.4.0",
+    "pareto-json": "^0.3.105"
+  }
+}

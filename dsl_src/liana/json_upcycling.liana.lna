@@ -1,0 +1,87 @@
+(
+    `schema`: | `schema` (
+        `schema imports`: {}
+        `resolver imports`: {}
+        `globals`: (
+            `complexity`: | `unconstrained` ~
+            `text types`: {
+                'regular expression': < | `single line` ~ | `no` ~ >
+                'pseudo-reference': < | `single line` ~ | `no` ~ >
+                'text': < | `single line` ~ | `no` ~ >
+            }
+            `simple types`: {
+                'natural': < | `number` < | `exact` < _ | `natural` ~ > > >
+                'boolean': < | `boolean` ~ >
+                'integer': < | `number` < | `exact` < _ | `integer` ~ > > >
+            }
+        )
+        `modules`: {
+            'Properties': < | `dictionary` < | `group` {
+                'optional': < _ | `simple` | `global` 'boolean' >
+                'value': < _ | `component` < | `internal` 'Value' _ > >
+            } > >
+            'Root': < | `group` {
+                'types': < _ | `dictionary` < | `component` < | `internal acyclic` 'Value' _ > > >
+                'root type': < _ | `text` | `global` 'pseudo-reference' >
+            } >
+            'Value': < | `state` < {
+                'array': < _ _ | `state` < {
+                    'list': < _ _ | `component` < | `internal` 'Value' _ > >
+                    'group': < _ * "expect a tulpe (fixed number of elmements), results in a group" | `group` {
+                        'properties': < _ | `dictionary` < | `group` {
+                            'value': < _ | `component` < | `internal` 'Value' _ > >
+                        } > >
+                    } >
+                    'cycle up': < _ _ | `state` < {
+                        'unique strings': < _ * "results in a dictionary with entries that have no value" | `nothing` ~ >
+                        'indexed objects': < _ * "results in a dictionary where the indexing property will be used as the key" | `group` {
+                            'indexing property': < _ | `text` | `global` 'text' >
+                            'properties': < _ | `component` < | `internal` 'Properties' _ > >
+                        } >
+                    } _ > >
+                } _ > >
+                'boolean': < _ _ | `nothing` ~ >
+                'component': < _ _ | `text` | `global` 'pseudo-reference' >
+                'number': < _ _ | `state` < {
+                    'integer': < _ _ | `group` {
+                        'minimum': < _ | `optional` | `simple` | `global` 'integer' >
+                    } >
+                } _ > >
+                'null': < _ _ | `nothing` ~ >
+                'nullable': < _ _ | `component` < | `internal` 'Value' _ > >
+                'object': < _ _ | `state` < {
+                    'dictionary': < _ _ | `component` < | `internal` 'Value' _ > >
+                    'group': < _ _ | `group` {
+                        'properties': < _ | `component` < | `internal` 'Properties' _ > >
+                    } >
+                    'cycle up': < _ _ | `state` < {
+                        'discriminated': < _ * "The value is an object with one special property; the discriminating property. That property is an enum string. Each possible value represents an option, and which other properties to expect" | `group` {
+                            'discriminating property': < _ | `text` | `global` 'text' >
+                            'options': < _ | `dictionary` < | `component` < | `internal` 'Value' _ > > >
+                        } >
+                        'discriminated with fallback': < _ * "Similar to 'discriminated', but includes a fallback option if the discriminating property doesn't exist or match any of the specified options" | `group` {
+                            'discriminating property': < _ | `text` | `global` 'text' >
+                            'options': < _ | `dictionary` < | `component` < | `internal` 'Value' _ > > >
+                            'fallback': < _ | `component` < | `internal` 'Value' _ > >
+                        } >
+                        'group and dictionary mixed': < _ * "an object with properties with fixed names, but which is also allowed to have additional properties. This will result in a combination of a group for the specified properties and a dictionary for the additional properties" | `group` {
+                            'properties': < _ | `component` < | `internal` 'Properties' _ > >
+                            'additional properties': < _ | `component` < | `internal` 'Value' _ > >
+                        } >
+                    } _ > >
+                } _ > >
+                'string': < _ _ | `state` < {
+                    'text': < _ _ | `nothing` ~ >
+                    'cycle up': < _ _ | `state` < {
+                        'enumeration': < _ * "this will result in a state where the options don't have data" | `dictionary` < | `nothing` ~ > >
+                    } _ > >
+                } _ > >
+            } _ > >
+        }
+        `complexity`: | `unconstrained` ~
+    )
+    `schema path`: [ ]
+    `complexity`: | `unconstrained` (
+        `module`: "Root"
+    )
+)

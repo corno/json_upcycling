@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "dependencies": {
+    "lib": "file:../lib",
+    "pareto-core-dev": "^0.12.0",
+    "pareto-core-application": "^0.1.0"
+  }
+}
